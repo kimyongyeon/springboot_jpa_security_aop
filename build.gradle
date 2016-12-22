@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.2.RELEASE'
+		grailsVersion = '2.4.4'
+		groovyVersion = '2.3.7'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+jar {
+	baseName = 'springboot_jpa_securty_project'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// spring
+	compile('org.springframework.boot:spring-boot-starter-aop')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-freemarker')
+
+	// tag::jetty[]
+	compile("org.springframework.boot:spring-boot-starter-web") {
+		exclude module: "spring-boot-starter-tomcat"
+	}
+	compile("org.springframework.boot:spring-boot-starter-jetty")
+	// end::jetty[]
+
+	// https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+
+	// lib
+	compile('org.projectlombok:lombok:1.12.2')
+    compile('org.springframework:springloaded:1.2.4.RELEASE')
+	compile('com.github.pagehelper:pagehelper:4.0.0')
+
+	compile 'org.codehaus.groovy:groovy-all'
+	compile ('org.spockframework:spock-spring:1.0-groovy-2.4')
+
+	compile('com.h2database:h2')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
