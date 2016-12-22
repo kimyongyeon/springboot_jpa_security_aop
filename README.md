@@ -7,6 +7,7 @@
   - db 연동 후 id, passwd 비교 인증
   - session 중복로그인 처리
 - Transactional
+  - 시큐리티와 aop 에 간에 문제점.
 - freemarker
 - pageable
 - JPA
