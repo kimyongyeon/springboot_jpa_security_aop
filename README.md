@@ -7,5 +7,7 @@
 - freemarker
 - pageable
 - JPA
+- spock
+- /console
  
  
