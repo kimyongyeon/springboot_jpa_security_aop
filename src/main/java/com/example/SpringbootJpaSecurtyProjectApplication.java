@@ -26,6 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Arrays;
+import java.util.List;
 
 /**
  *  @EnableAspectJAutoProxy를 명시하면 Spring AOP를 사용하기 위한 첫 준비가 끝난다.
@@ -41,6 +42,9 @@ public class SpringbootJpaSecurtyProjectApplication {
 	@Autowired
 	BoardService boardService;
 
+	@Autowired
+	MemberService memberService;
+
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootJpaSecurtyProjectApplication.class, args);
 	}
@@ -48,10 +52,23 @@ public class SpringbootJpaSecurtyProjectApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
+			// repository, service 테스트
 			UserVO userVO = new UserVO();
 			userVO.setUser_name("user");
 			userVO.setUserPasswd("1234");
 			memberRepository.save(userVO);
+
+			List<UserVO> userVOList = memberRepository.findByUserIdLessThanSQL(1L);
+			userVOList.forEach(i-> System.out.println(i.getUserId()));
+
+			UserVO userVO1 = memberRepository.findByUserName("user");
+			System.out.println("findByUserName >> " + userVO1.getUser_name());
+
+			UserVO userVO2 = memberRepository.findByUserNameUserId("user");
+			System.out.println("findByUserNameUserId >> " + userVO2.getUser_name());
+
+			List<UserVO> userVOList1 = memberService.findWithUserName("user");
+			userVOList1.forEach(i-> System.out.println(i.getUserId()));
 
 			try {
 				BoardVO boardVO = new BoardVO();

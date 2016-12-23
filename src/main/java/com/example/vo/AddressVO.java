@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * Created by kimyongyeon on 2016-12-21.
@@ -14,7 +15,9 @@ import javax.persistence.*;
 @Table(name = "tbl_address")
 @AllArgsConstructor // jpa
 @NoArgsConstructor // jpa
-public class AddressVO {
+public class AddressVO implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

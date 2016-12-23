@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -29,6 +30,17 @@ public class MemberService implements UserDetailsService {
     @Autowired
     MemberRepository memberRepository;
 
+    @PersistenceContext
+    public EntityManager em;
+
+    public List findWithUserName(String name) {
+        return em.createQuery(
+                "SELECT u FROM UserVO u WHERE u.user_name LIKE :user_name")
+                .setParameter("user_name", name)
+                .setMaxResults(10)
+                .getResultList();
+    }
+
     /**
      * 로그인 처리
      *
@@ -42,20 +54,18 @@ public class MemberService implements UserDetailsService {
         StandardPasswordEncoder standardPasswordEncoder = new StandardPasswordEncoder();
         UserVO userVO = new UserVO();
         userVO.setUser_name(username);
-        List<UserVO> list = memberRepository.findAll();
+        UserVO userVO1 = memberRepository.findByUserName(username);
 
         try {
-            if (list == null) { // 아이디가 없는 경우
+            if (userVO1 == null) { // 아이디가 없는 경우
                 userVO.setUser_name(username);
                 userVO.setUserPasswd(standardPasswordEncoder.encode(""));
                 return userVO;
             } else {
-                for (UserVO userVO1 : list) {
-                    userVO.setUser_name(userVO1.getUser_name());
-                    userVO.setUserPasswd(userVO1.getUserPasswd());
-                    List<GrantedAuthority> authorityList = buildUserAutority(userVO1.getUserRoles());
-                    return buildUserForAuthentication(userVO1, authorityList);
-                }
+                userVO1.setUser_name(userVO1.getUser_name());
+                userVO1.setUserPasswd(userVO1.getUserPasswd());
+                List<GrantedAuthority> authorityList = buildUserAutority(userVO1.getUserRoles());
+                return buildUserForAuthentication(userVO1, authorityList);
             }
 
         } catch (Exception e) {

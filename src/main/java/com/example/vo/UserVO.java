@@ -8,6 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,17 +21,25 @@ import java.util.Set;
 @Entity // jpa
 @AllArgsConstructor // jpa
 @NoArgsConstructor // jpa
-public class UserVO implements UserDetails {
+@NamedQueries({
+    @NamedQuery(name="UserVO.findAll",
+            query="SELECT c FROM UserVO c"),
+    @NamedQuery(name="UserVO.findByUserName",
+            query="SELECT c FROM UserVO c WHERE c.user_name = :user_name"),
+})
+public class UserVO implements UserDetails, Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", unique = true, length = 64)
+    @Column(name = "username", unique = true, length = 64, nullable=false)
     private String user_name;
 
-    @Column(name = "password", length = 256)
+    @Column(name = "password", length = 256, nullable=false)
     private String userPasswd;
 
     @Column(name = "first_name", length = 128)
