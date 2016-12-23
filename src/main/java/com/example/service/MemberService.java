@@ -1,11 +1,15 @@
 package com.example.service;
 
 import com.example.repository.MemberRepository;
+import com.example.vo.QUserVO;
 import com.example.vo.UserRoleVO;
 import com.example.vo.UserVO;
+import com.querydsl.jpa.impl.JPAQuery;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,6 +38,57 @@ public class MemberService implements UserDetailsService {
 
     @PersistenceContext
     public EntityManager em;
+
+    @Transactional
+    public void logic() {
+        UserVO userVO = new UserVO();
+        userVO.setUser_name("kim");
+        userVO.setUserPasswd("1234");
+
+        // 등록
+        em.persist(userVO);
+
+        // 수정
+        userVO.setUserPasswd("2345");
+
+        // 한건 조회
+        UserVO findUser = em.find(UserVO.class, 1L); // 객체, pk(id)로 설정된 필드 매핑
+        System.out.println("findUser = " + findUser.getUser_name() + ", age=" + findUser.getPassword());
+
+        // 목록 조회
+        List<UserVO> userVOList = em.createQuery("select m from UserVO m", UserVO.class).getResultList();
+        System.out.println("userVOList.size = " + userVOList.size());
+
+        // 삭제
+        em.remove(userVO);
+
+    }
+
+    public void queryDslTest() {
+        JPAQueryFactory jpaQueryFactory =  new JPAQueryFactory(em);
+        QUserVO user = QUserVO.userVO;
+        jpaQueryFactory.selectFrom(user).where(user.user_name.eq("user")).fetchOne();
+
+        // and
+        jpaQueryFactory.selectFrom(user)
+                .where(user.firstName.eq("Bob"), user.lastName.eq("Wilson"));
+        // and
+        jpaQueryFactory.selectFrom(user)
+                .where(user.firstName.eq("Bob").and(user.lastName.eq("Wilson")));
+        // or
+        jpaQueryFactory.selectFrom(user)
+                .where(user.firstName.eq("Bob").or(user.lastName.eq("Wilson")));
+
+        // Exposing the original query
+        Query jpaQuery = jpaQueryFactory.selectFrom(user).createQuery();
+        List results = jpaQuery.getResultList();
+    }
+
+    public List<UserVO> getUserList() {
+        JPAQuery query = new JPAQuery(em);
+        QUserVO user = QUserVO.userVO;
+        return query.from(user).fetch();
+    }
 
     public List findWithUserName(String name) {
         return em.createQuery(

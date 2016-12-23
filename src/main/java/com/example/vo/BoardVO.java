@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.Set;
 
 /**
@@ -29,9 +30,9 @@ public class BoardVO implements Serializable {
     @Column(name ="content", length = 256)
     private String content;
 
-    @OneToMany(mappedBy = "boardVO", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "boardVO", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<BoardReplyVO> boardReplyVOs;
 
-    @OneToMany(mappedBy = "boardFileVO", cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "boardFileVO", cascade = {CascadeType.ALL}, fetch = FetchType.LAZY)
     private Set<BoardFileVO> boardFileVOs;
 }

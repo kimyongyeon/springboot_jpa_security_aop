@@ -28,6 +28,7 @@ public class UserRoleVO implements Serializable {
     @Column(name ="role_name", nullable = false, unique = true, length = 128)
     private String userRoleName;
 
+    // EAGER : 즉시로딩
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserVO user;
