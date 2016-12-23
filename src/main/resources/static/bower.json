@@ -1,0 +1,22 @@
+{
+  "name": "springboot_jpa_security_project",
+  "authors": [
+    "kimyongyeon <toyongyeon@gmail.com>"
+  ],
+  "description": "all round project",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "^2.1.6",
+    "font-awesome": "Font-Awesome#^4.7.0",
+    "bootstrap": "^3.3.7"
+  }
+}
