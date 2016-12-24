@@ -43,7 +43,7 @@ public class UserVO implements UserDetails, Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "username", unique = true, length = 64, nullable=false)
+    @Column(name = "username", unique = true, length = 64, nullable=false) // not null, length 길이
     private String user_name;
 
     @Column(name = "password", length = 256, nullable=false)
