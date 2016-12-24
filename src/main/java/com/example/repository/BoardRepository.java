@@ -12,5 +12,5 @@ import java.util.List;
  */
 @Repository
 public interface BoardRepository extends PagingAndSortingRepository<BoardVO, Long> {
-    public List<BoardVO> findAllByOrderByTitleAsc();
+    List<BoardVO> findAllByOrderByTitleAsc();
 }

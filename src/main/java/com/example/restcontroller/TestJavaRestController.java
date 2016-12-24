@@ -2,6 +2,7 @@ package com.example.restcontroller;
 
 import com.example.repository.MemberRepository;
 import com.example.service.BoardService;
+import com.example.vo.BoardReplyVO;
 import com.example.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
@@ -67,6 +68,12 @@ public class TestJavaRestController {
         Map map = boardService.pageList(pageable);
         System.out.println(map);
         return map;
+    }
+
+    @RequestMapping("/boardReplyInsert")
+    public String boardReplyInsert(@ModelAttribute BoardReplyVO boardReplyVO) throws Exception{
+        boardService.replyWrite(boardReplyVO);
+        return "success";
     }
 
 
