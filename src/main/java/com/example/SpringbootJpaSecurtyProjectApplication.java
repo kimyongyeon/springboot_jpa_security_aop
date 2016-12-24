@@ -11,12 +11,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
+import java.util.stream.Stream;
+
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
 
 /**
  *  @EnableAspectJAutoProxy를 명시하면 Spring AOP를 사용하기 위한 첫 준비가 끝난다.
@@ -57,8 +62,16 @@ public class SpringbootJpaSecurtyProjectApplication {
 			userVO.setUserPasswd("1234");
 			memberRepository.save(userVO);
 
-			List list = memberService.getUserList();
-			System.out.println("getUserList => " + list);
+			List<UserVO> list = memberService.getUserList();
+
+			list = list.stream().filter(i->i.getPassword().equals("kim")).collect(toList());
+
+			Stream<String> stringStream = Stream.of("1","2","3");
+			stringStream.distinct();
+			stringStream.filter(i->i.equals("1")).collect(toList());
+			stringStream.forEach(System.out::println);
+			stringStream.map(i->i + ",");
+			stringStream.collect(joining(","));
 
 			memberService.logic();
 
