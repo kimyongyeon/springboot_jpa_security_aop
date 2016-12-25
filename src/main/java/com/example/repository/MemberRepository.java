@@ -1,8 +1,6 @@
 package com.example.repository;
 
 import com.example.vo.UserVO;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,7 +18,7 @@ public interface MemberRepository extends JpaRepository<UserVO, Long>{
 
     List<UserVO> findByUserIdLessThan(Long userId);
 
-    @Query("select t from UserVO t where userId=:userId")
+    @Query("select t from UserVO t where userId=:userId") // 객체지향쿼리
     List<UserVO> findByUserIdLessThanSQL(@Param("userId") Long userId);
 
     List<UserVO> findByUserIdLessThanOrderByUserIdDesc(Long userId);

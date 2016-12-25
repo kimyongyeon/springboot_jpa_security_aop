@@ -1,9 +1,6 @@
 package com.example
 
-import com.example.repository.MemberRepository
 import com.example.vo.UserVO
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
 import org.springframework.boot.test.context.SpringBootTest
 import spock.lang.Specification
 

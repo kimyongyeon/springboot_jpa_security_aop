@@ -9,10 +9,8 @@ import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
@@ -28,6 +26,20 @@ public class TestJavaRestController {
 
     @Autowired
     BoardService boardService;
+
+    class UserVOS {
+        private String[] phone;
+    }
+
+    @RequestMapping(value = "/array_return", method = RequestMethod.GET)
+    public String arrayReturn(@ModelAttribute("userVOs")UserVOS userVOs) {
+        return null;
+    }
+
+    @RequestMapping(value = "/array_return_post", method = RequestMethod.POST)
+    public String arrayReturnPost(@RequestBody UserVOS userVOs) {
+        return null;
+    }
 
     /**
      * json 문자열 출력
