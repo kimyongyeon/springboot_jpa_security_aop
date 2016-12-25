@@ -1,10 +1,6 @@
 <html>
 <body>
 
-<div th:if="${message}">
-    <h2 th:text="${message}"/>
-</div>
-
 <div>
     <form method="POST" enctype="multipart/form-data" action="/fileUpload">
         <table>
@@ -16,8 +12,8 @@
 
 <div>
     <ul>
-        <li th:each="file : ${files}">
-            <a th:href="${file}" th:text="${file}" />
+        <li>
+            <a href="">파일 이름</a>
         </li>
     </ul>
 </div>
