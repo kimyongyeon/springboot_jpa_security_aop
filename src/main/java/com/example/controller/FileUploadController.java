@@ -2,6 +2,8 @@ package com.example.controller;
 
 import com.example.advice.StorageFileNotFoundException;
 import com.example.service.StorageService;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,9 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -28,17 +33,31 @@ public class FileUploadController {
         this.storageService = storageService;
     }
 
+    private String template(String templateName, Map<String, Object> data) {
+        Configuration cfg = new Configuration(Configuration.VERSION_2_3_23);
+        cfg.setClassForTemplateLoading(this.getClass(), "/templates/");
+        try {
+            Template template = cfg.getTemplate(templateName+".ftl");
+            Writer out = new StringWriter();
+            template.process(data, out);
+            return out.toString();
+
+        }catch (Exception e){
+            return "";
+        }
+    }
+
     @GetMapping("/fileUpload")
     public String listUploadedFiles(Model model) throws IOException {
-
-        model.addAttribute("files", storageService
+        model.addAttribute("files",
+                storageService
                 .loadAll()
                 .map(path ->
                         MvcUriComponentsBuilder
                                 .fromMethodName(FileUploadController.class, "serveFile", path.getFileName().toString())
                                 .build().toString())
-                .collect(Collectors.toList()));
-
+                .collect(Collectors.toList())
+        );
         return "/test/uploadForm";
     }
 
@@ -55,13 +74,13 @@ public class FileUploadController {
 
     @PostMapping("/fileUpload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file,
-                                   RedirectAttributes redirectAttributes) {
+                                   RedirectAttributes redirectAttributes, Map<String, Object> model) {
 
         storageService.store(file);
         redirectAttributes.addFlashAttribute("message",
                 "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/test/uploadForm";
+        return "redirect:/fileUpload";
     }
 
     @ExceptionHandler(StorageFileNotFoundException.class)

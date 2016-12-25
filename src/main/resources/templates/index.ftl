@@ -41,9 +41,9 @@
         <ul>
             <li>프로필</li>
             <li><a href="/main">메인화면</a></li>
-            <li>자유게시판</li>
+            <li><a href="/fileUpload">파일업로드</a></li>
             <li>방명록</li>
-            <li>스터디</li>
+            <li>${message} >> <#if message != ''> ${message} </#if>   </li>
         </ul>
     </div>
     <div class="right">
