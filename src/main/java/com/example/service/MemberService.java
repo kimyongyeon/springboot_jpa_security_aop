@@ -18,9 +18,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.meta.TypeQualifier;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -61,6 +66,25 @@ public class MemberService implements UserDetailsService {
 
         // 삭제
         em.remove(userVO);
+
+    }
+
+    public void criteriaTest() {
+
+        // JPQL select m from UserVO m
+
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+
+        // Criteria 생성, 반환 타입 지정
+        CriteriaQuery<UserVO> cq = cb.createQuery(UserVO.class);
+
+        Root<UserVO> m = cq.from(UserVO.class); // from 절
+
+        cq.select(m);
+
+        TypedQuery<UserVO> query = em.createQuery(cq);
+        List<UserVO> userVOList = query.getResultList();
+
 
     }
 
