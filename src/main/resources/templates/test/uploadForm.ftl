@@ -1,6 +1,5 @@
-<html>
-<body>
-
+<#import "../layouts/default.ftl" as layout>
+<@layout.myLayout>
 <div>
     <#if message??>${message}</#if>
 </div>
@@ -23,6 +22,4 @@
     </#list>
     </ul>
 </div>
-
-</body>
-</html>
+</@layout.myLayout>

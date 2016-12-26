@@ -13,8 +13,9 @@ public class CorsFilter implements Filter {
     {
         // 필터적용
         ((HttpServletResponse)res).setHeader("HelloHeader", "test");
-
         chain.doFilter(req, res);
+
+
     }
 
     @Override

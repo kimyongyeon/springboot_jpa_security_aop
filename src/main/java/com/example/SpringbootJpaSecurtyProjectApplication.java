@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
@@ -27,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableConfigurationProperties(StorageProperties.class)
+@EnableScheduling
 public class SpringbootJpaSecurtyProjectApplication {
 
 	@Autowired

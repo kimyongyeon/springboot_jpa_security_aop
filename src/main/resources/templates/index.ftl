@@ -39,15 +39,15 @@
 <div class="main">
     <div class="left">
         <ul>
-            <li>프로필</li>
+            <li><a href="/">홈으로</a></li>
             <li><a href="/main">메인화면</a></li>
             <li><a href="/fileUpload">파일업로드</a></li>
-            <li>방명록</li>
-            <li>${message} >> <#if message != ''> ${message} </#if>   </li>
+            <li><a href="/hello.html">일반페이지(public)</a></li>
         </ul>
     </div>
     <div class="right">
         <h2>한글은 절대 깨지면 안됩니다.</h2>
+        <h3><#if message != ''> ${message} </#if> </h3>
         <p>모델로 던진 값을 받을 수 있을까요?</p>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Incidunt, nam nihil. Est facere minima nulla quasi
             suscipit. Ab aspernatur cum cumque esse minus nihil obcaecati quidem repellendus unde? Beatae blanditiis
@@ -59,8 +59,5 @@
             rerum!</p>
     </div>
 </div>
-<script>
-    $("div").append("hello world");
-</script>
 </body>
 </html>
