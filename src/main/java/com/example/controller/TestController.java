@@ -1,6 +1,7 @@
 package com.example.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Date;
@@ -27,6 +28,18 @@ public class TestController {
     @RequestMapping("/main")
     public String main() {
         return "biz/main";
+    }
+
+    @RequestMapping("/test2")
+    public String test2(Model model) {
+        model.addAttribute("message", "test");
+        return "test/test";
+    }
+
+    @RequestMapping("/rest_test")
+    public String rest_test(Model model) {
+        model.addAttribute("message", "test");
+        return "rest/rest";
     }
 
 
